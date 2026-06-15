@@ -221,7 +221,7 @@ def init_bricks():
             brick_group.add(Brick(x, y, brick_width, brick_height, color))
 
 def init_game():
-    global score, player_score, ai_score, ball_pos, ball_speed
+    global score, player_score, ai_score
     global paddle_width, paddle_height, paddle_pos, paddle_dx, paddle_dy
     global ai_paddle_pos
     
@@ -362,24 +362,24 @@ while running:
             ball.update(dt)
 
             if ball.pos[0] - ball_radius <= 0:
-                ball.speed[0] = -ball_speed[0]
+                ball.speed[0] = -ball.speed[0]
                 ball.pos[0] = ball_radius
                 spawn_particles(ball.pos[0], ball.pos[1], COLOR_BORDER)
                 trigger_shake(0.1, 3.0)
             elif ball.pos[0] + ball_radius >= SCREEN_WIDTH:
-                ball_speed[0] = -ball_speed[0]
-                ball_pos[0] = SCREEN_WIDTH - ball_radius
-                spawn_particles(ball_pos[0], ball_pos[1], COLOR_BORDER)
+                ball.speed[0] = -ball.speed[0]
+                ball.pos[0] = SCREEN_WIDTH - ball_radius
+                spawn_particles(ball.pos[0], ball.pos[1], COLOR_BORDER)
                 trigger_shake(0.1, 3.0)
                 
             if ball.pos[1] - ball_radius <= 0:
-                ball_speed[1] = -ball_speed[1]
-                ball_pos[1] = ball_radius
-                spawn_particles(ball_pos[0], ball_pos[1], COLOR_BORDER)
+                ball.speed[1] = -ball.speed[1]
+                ball.pos[1] = ball_radius
+                spawn_particles(ball.pos[0], ball.pos[1], COLOR_BORDER)
                 trigger_shake(0.1, 3.0)
 
             if ball.pos[1] + ball_radius >= SCREEN_HEIGHT:
-                spawn_particles(ball_pos[0], ball_pos[1], COLOR_BALL)
+                spawn_particles(ball.pos[0], ball.pos[1], COLOR_BALL)
                 trigger_shake(0.3, 10.0)
                 if check_high_score_qualification(score):
                     input_name = ""
@@ -467,13 +467,13 @@ while running:
             ball.update(dt)
 
             if ball.pos[1] - ball_radius <= 0:
-                ball.speed[1] = -ball_speed[1]
+                ball.speed[1] = -ball.speed[1]
                 ball.pos[1] = ball_radius
                 spawn_particles(ball.pos[0], ball.pos[1], COLOR_BORDER)
                 trigger_shake(0.1, 3.0)
             elif ball.pos[1] + ball_radius >= SCREEN_HEIGHT:
-                ball_speed[1] = -ball_speed[1]
-                ball_pos[1] = SCREEN_HEIGHT - ball_radius
+                ball.speed[1] = -ball.speed[1]
+                ball.pos[1] = SCREEN_HEIGHT - ball_radius
                 spawn_particles(ball.pos[0], ball.pos[1], COLOR_BORDER)
                 trigger_shake(0.1, 3.0)
 
@@ -509,16 +509,16 @@ while running:
                     ball.pos = [SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2]
                     ball.speed = [250, random.choice([-120, 120])]
 
-            elif ball_pos[0] + ball_radius >= SCREEN_WIDTH:
-                spawn_particles(ball_pos[0], ball_pos[1], COLOR_BALL)
+            elif ball.pos[0] + ball_radius >= SCREEN_WIDTH:
+                spawn_particles(ball.pos[0], ball.pos[1], COLOR_BALL)
                 trigger_shake(0.3, 10.0)
                 player_score += 1
                 if player_score >= 5:
                     score = f"{player_score} - {ai_score}"
                     state = "WIN"
                 else:
-                    ball_pos = [SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2]
-                    ball_speed = [-250, random.choice([-120, 120])]
+                    ball.pos = [SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2]
+                    ball.speed = [-250, random.choice([-120, 120])]
 
     if shake_duration > 0:
         shake_duration -= dt
