@@ -146,7 +146,10 @@ while running:
             
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                running = False
+                if state == "MENU":
+                    running = False
+                else:
+                    state = "MENU"
                 
             if state == "MENU":
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
@@ -348,7 +351,7 @@ while running:
     if state == "MENU":
         title_surface = font_title.render("ARCADE CABINET", True, COLOR_TEXT)
         mode_surface = font_title.render(f"< Mode: {game_mode} >", True, COLOR_PADDLE)
-        subtitle_surface = font_subtitle.render("Press UP/DOWN to Switch Mode - Press SPACE to Start", True, COLOR_BORDER)
+        subtitle_surface = font_subtitle.render("Press UP/DOWN to Switch Mode - Press SPACE to Start - ESC to Quit", True, COLOR_BORDER)
         
         title_rect = title_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 80))
         mode_rect = mode_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 10))
@@ -364,7 +367,7 @@ while running:
             score_rect = score_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50))
             screen.blit(score_surface, score_rect)
             
-            instructions_surface = font_subtitle.render("Move paddle with Left/Right Keys - Press ESC to exit", True, COLOR_BORDER)
+            instructions_surface = font_subtitle.render("Move paddle with Left/Right Keys - Press ESC for Menu", True, COLOR_BORDER)
             instructions_rect = instructions_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 30))
             screen.blit(instructions_surface, instructions_rect)
 
@@ -382,7 +385,7 @@ while running:
             for y in range(0, SCREEN_HEIGHT, 30):
                 pygame.draw.rect(screen, (60, 60, 80), (SCREEN_WIDTH // 2 - 2, y, 4, 15))
             
-            instructions_surface = font_subtitle.render("Move paddle with Up/Down Keys - Press ESC to exit", True, COLOR_BORDER)
+            instructions_surface = font_subtitle.render("Move paddle with Up/Down Keys - Press ESC for Menu", True, COLOR_BORDER)
             instructions_rect = instructions_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT - 30))
             screen.blit(instructions_surface, instructions_rect)
 
@@ -394,9 +397,9 @@ while running:
         title_surface = font_title.render("GAME OVER", True, COLOR_BALL)
         
         if game_mode == "BREAKOUT":
-            sub_text = f"Final Score: {score} | Press SPACE to Restart - ESC to Exit"
+            sub_text = f"Final Score: {score} | Press SPACE to Restart - ESC for Menu"
         else:
-            sub_text = f"Final Score: {score} (AI Wins) | Press SPACE to Restart - ESC to Exit"
+            sub_text = f"Final Score: {score} (AI Wins) | Press SPACE to Restart - ESC for Menu"
             
         subtitle_surface = font_subtitle.render(sub_text, True, COLOR_TEXT)
         
@@ -410,9 +413,9 @@ while running:
         title_surface = font_title.render("YOU WIN!", True, COLOR_PADDLE)
         
         if game_mode == "BREAKOUT":
-            sub_text = f"Final Score: {score} | Press SPACE to Play Again - ESC to Exit"
+            sub_text = f"Final Score: {score} | Press SPACE to Play Again - ESC for Menu"
         else:
-            sub_text = f"Final Score: {score} (You Beat AI!) | Press SPACE to Play Again - ESC to Exit"
+            sub_text = f"Final Score: {score} (You Beat AI!) | Press SPACE to Play Again - ESC for Menu"
             
         subtitle_surface = font_subtitle.render(sub_text, True, COLOR_TEXT)
         
